@@ -1,0 +1,59 @@
+‌version: 0.0
+os: linux
+files:
+  - source: /
+    destination: /home/ec2-user/api
+permissions:
+  - object: /
+    pattern: "**"
+    owner: ec2-user
+    group: ec2-user
+hooks:
+  AfterInstall:
+    - location: deploy/before_install.sh
+      timeout: 300
+      runas: ec2-user
+  ApplicationStart:
+    - location: deploy/restart.sh
+      timeout: 300
+      runas: ec2-user
+ValidateService:
+    - location: deploy/validate.sh
+      timeout: 300
+      runas: ec2-user
+
+
+# version: 0.2
+
+# phases:
+#   install:
+#     runtime-versions:
+#       nodejs: 10  
+#     commands:
+#       - echo Installing Mocha...
+#       - npm install -g mocha
+#   pre_build:
+#     commands:
+#       - echo Installing source NPM dependencies...
+#       - npm install
+#       # - npm install unit.js
+#   build:
+#     commands:
+#       - echo Build started on `date`
+#       - echo Compiling the Node.js code
+#       # - mocha test.js
+#       - npm run start
+#   post_build:
+#     commands:
+#       - echo Build completed on `date`
+# # Include only the files required for your application to run.
+# # Do not use recursively include artifacts from node_modules directory as it will include unnecessary packages 
+# # used only for building and testing.
+# # ExpressJS apps will need other artifact directories included (bin/*, public/*, routes/*, views/* etc).
+# artifacts:
+#   files:
+#     - index.js
+#     - .gitignore
+#     - package.json
+#     - node_modules/async/*
+#     - node_modules/lodash/*
