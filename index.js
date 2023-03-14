@@ -1,8 +1,6 @@
-require("dotenv").config();
 const express = require("express");
-const port = process.env.PORT;
 const app = express();
-
+const port = 8000;
 app.on("/" , (req, res) => {
     res.send("welcome to the main route");
 });
